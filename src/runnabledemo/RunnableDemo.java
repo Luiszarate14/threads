@@ -19,13 +19,24 @@ public class RunnableDemo implements Runnable {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+      ControlValue control = new ControlValue(40, 0);
+      
+      Semaphore sem = new Semaphore(5);
       Lock lock = new Lock();
-      ControlValue control = new ControlValue(10, 0);
+      ShareSemaphore t1 = new ShareSemaphore("Thread-1", control, lock, sem);
+      ShareSemaphore t2 = new ShareSemaphore("Thread-2", control, lock, sem);      
+      t1.start();
+      t2.start();  
+      
+      /*
+      Lock lock = new Lock();
       ShareVarLock t1 = new ShareVarLock("Thread-1", control, lock);
       ShareVarLock t2 = new ShareVarLock("Thread-2", control, lock);
       
       t1.start();
-      t2.start();      
+      t2.start();  
+      */
       
       /*
       ShareVar t1 = new ShareVar("Thread-1", control);
